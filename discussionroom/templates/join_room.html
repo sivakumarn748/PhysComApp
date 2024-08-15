@@ -1,0 +1,33 @@
+{% extends 'dis_outline.html' %}
+
+{% load static %}
+
+{% block dcsroomcontent %}
+
+<div class="text-left text-blue-700 p-5 lg:text-xl">
+    <form action="{% url 'dcsroom:join-room' %}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 justify-items-center bg-blue-50 rounded-xl">
+        {% csrf_token %}
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="name">Room ID </label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="text" value="fedef70a-a29b-440b-a806-211c4c9bbe51" name="roomid" id="room_id">
+        </div>
+
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="about">Room Key</label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="text" value="key" name="roomkey" id="room_key">
+        </div>
+
+        <input type="hidden" id="register_sessid" name="sessid" value="">
+
+        <div class="p-3">
+            <input class="bg-blue-500 rounded-2xl py-4 px-16 text-white hover:font-bold" type="submit" value="Join">
+        </div>
+
+        <script>
+            var sessid = localStorage.getItem("sessid");
+            if (sessid) document.getElementById("register_sessid").value = sessid;
+        </script>
+    </form>
+</div>
+
+{% endblock dcsroomcontent %}

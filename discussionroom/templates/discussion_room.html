@@ -1,0 +1,14 @@
+{% extends "dis_outline.html" %}
+
+{% block dcsroomcontent %}
+
+<div class="h-full pt-24">
+    <div class="w-fit mx-auto my-3 py-3 px-10 text-white bg-blue-500 rounded-full">
+        <a href="{% url 'dcsroom:register-room' %}">Register Room</a>
+    </div>
+    <div class="w-fit mx-auto my-3 py-3 px-10 text-white bg-blue-500 rounded-full">
+        <a href="{% url 'dcsroom:join-room' %}">Join Room</a>
+    </div>
+</div>
+
+{% endblock dcsroomcontent %}

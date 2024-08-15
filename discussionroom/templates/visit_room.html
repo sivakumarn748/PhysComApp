@@ -1,0 +1,92 @@
+{% extends "room_outline.html" %}
+
+{% load static %}
+
+{% block roomcontent %}
+
+<div class="bg-cool-gray-300 text-blue-300 px-3" id="messagePool">
+    All Messages here...
+</div>
+
+<div class="fixed bottom-3 mx-[3%] w-[94%] h-12 p-2 bg-blue-200 rounded-full">
+    <div class="flex flex-row align-middle">
+        <span class="w-10 px-2 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 text-blue-700 hover:stroke-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+            </svg>                      
+        </span>
+        <span class="w-full px-2">
+            <textarea name="text_msg" id="text_msg" rows="1" class="resize-none h-7 w-full bottom-0 text-left px-1 bg-blue-200 border border-transparent border-solid border-b-2 border-b-blue-700 outline-none placeholder-blue-300" placeholder="Message"></textarea>
+        </span>
+        <span class="w-10 px-2 rounded-full" id="sendBtn"> 
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7 text-blue-700 hover:stroke-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+            </svg>                      
+        </span>
+    </div>
+</div>
+
+<!-- Web Socket Script -->
+<script>
+    const sendBtn = document.getElementById("sendBtn");
+    const textArea = document.getElementById("text_msg");
+    const msgPool = document.getElementById("messagePool");
+
+    const sessid = localStorage.getItem("sessid");alert(sessid);
+    
+    const wsURL = `wss://${window.location.host}/ws/dcsroom/{{room.roomid}}`;
+    const wsConn = new WebSocket(wsURL, sessid);
+
+    wsConn.onopen = (event) => {
+        console.log("Connection Opened !!");
+        sendAlert("I joined the room");
+        // sendAlert(`${sessid} joined the room.`);
+    };
+    wsConn.onclose = (event) => {
+        console.log("Connection Closed :(")
+        // sendAlert(`${sessid} exited the room.`);
+    };
+    wsConn.onmessage = (event) => {
+        data = JSON.parse(event.data);
+        if (data['type'] == 'message') {
+            msgPool.innerHTML += `<div>${data['message']}</div>`;
+        }
+        else if (data['type'] == 'alert') {
+            Alert(data['message']);
+        }
+    };
+    wsConn.onerror = (event) => {
+        // console.log(event);
+        alert(JSON.stringify(event))
+    };
+
+    const sendMessage = (message) => {
+        json = JSON.stringify({
+            "type": "message",
+            "sessid": sessid,
+            "message": message
+        });
+        wsConn.send(json);
+    };
+
+    const sendAlert = (message) => {
+        json = JSON.stringify({
+            "type": "alert",
+            "sessid": sessid,
+            "message": message
+        });
+        wsConn.send(json);
+    };
+
+    const Alert = (message) => {
+        
+    }
+
+    sendBtn.addEventListener('click', (event)=>{
+        message = textArea.value;
+        sendMessage(message);
+        textArea.value = "";
+    });
+</script>
+
+{% endblock roomcontent %}

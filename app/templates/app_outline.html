@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Room</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .menuopen {
+            animation-name: menuopenAnim;
+            animation-duration: 200ms;
+            animation-fill-mode: forwards;
+            animation-timing-function: ease;
+        }
+        .menuclose {
+            animation-name: menucloseAnim;
+            animation-duration: 200ms;
+            animation-fill-mode: forwards;
+            animation-fill-mode: ease ;
+        }
+
+        @keyframes menuopenAnim {
+            0% {
+                right: 100vw;
+                opacity: 0;
+            }
+            100% {
+                right: 40vw;
+                opacity: 1;
+            }
+        }
+        @keyframes menucloseAnim {
+            0% {
+                right: 40vw;
+                opacity: 1;
+            }
+            100% {
+                right: 100vw;
+                opacity: 0;
+            }
+        }
+    </style>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="navbar" class="fixed flex place-content-between top-0 w-screen bg-blue-500 h-12 py-2 text-white">
+        <span class="text-xl my-auto px-5">
+            <b>PhysCom</b>
+        </span>
+        <span class="hidden md:inline">
+            <a class="text-md my-auto px-3" href="{% url 'app:home' %}">Home</a>
+            <a class="text-md my-auto px-3" href="{% url 'dcsroom:home' %}">Discussion Room</a>
+            <a class="text-md my-auto px-3" href="{% url 'dcsroom:home' %}">Events</a>
+            <a class="text-md my-auto px-3" href="{% url 'users:login-user' %}">Login</a>
+            <a class="text-md my-auto px-3" href="{% url 'users:register-user' %}">Signup</a>
+        </span>
+        <span id="menu-btn" class="px-10 md:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+              
+        </span>
+    </div>
+
+    <div id="mobile-menu" class="fixed w-[60%] h-full bg-blue-500 text-white md:hidden right-[100vw]">
+        <span class="grid grid-cols-1 text-right pr-3">
+            <a class="text-md my-auto px-3" href="{% url 'app:home' %}">Home</a>
+            <a class="text-md my-auto px-3" href="{% url 'dcsroom:home' %}">Discussion Room</a>
+            <a class="text-md my-auto px-3" href="{% url 'dcsroom:home' %}">Events</a>
+            <a class="text-md my-auto px-3" href="{% url 'users:login-user' %}">Login</a>
+            <a class="text-md my-auto px-3" href="{% url 'users:register-user' %}">Signup</a>
+        </span>
+    </div>
+
+    <div id="appcontent" class="mt-12 text-center">
+        {% block appcontent %}
+        {% endblock appcontent %}
+    </div>
+
+    <script>
+        var menuBtn = document.getElementById("menu-btn");
+        var mobileMenu = document.getElementById("mobile-menu");
+
+        menuBtn.addEventListener('click', (event)=>{
+            if (mobileMenu.classList.contains("menuopen")) {
+                // mobileMenu.classList.remove("block");
+                mobileMenu.classList.remove("menuopen");
+                // mobileMenu.classList.add("hidden");
+                mobileMenu.classList.add("menuclose");
+                menuBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>';
+            }
+            else {
+                // mobileMenu.classList.remove("hidden");
+                mobileMenu.classList.remove("menuclose");
+                // mobileMenu.classList.add("block");
+                mobileMenu.classList.add("menuopen");
+                menuBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>';
+            }
+        });
+    </script>
+
+</body>
+</html>

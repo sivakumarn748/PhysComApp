@@ -1,0 +1,28 @@
+{% extends "app_outline.html" %}
+
+{% load static %}
+
+{% block appcontent %}
+
+<div class="text-left text-blue-700 p-5 lg:text-xl">
+    <form action="{% url 'users:login-user' %}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 justify-items-center bg-blue-50 rounded-xl">
+        {% csrf_token %}
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="userid">User ID </label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="text" name="userid" value="" id="userid" required="true">
+        </div>
+
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="password">Password</label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="password" name="password" value="" id="password" required="true">
+        </div>
+
+        <input type="hidden" name="next" value="{{nexturl}}"/>
+
+        <div class="p-3">
+            <input class="bg-blue-500 rounded-2xl py-4 px-16 text-white hover:text-2xl" type="submit" value="Login">
+        </div>
+    </form>
+</div>
+
+{% endblock appcontent %}

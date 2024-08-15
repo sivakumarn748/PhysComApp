@@ -1,0 +1,28 @@
+{% extends "dis_outline.html" %}
+
+{% load static %}
+
+{% block dcsroomcontent %}
+
+<div class="text-left text-blue-700 p-5 lg:text-xl">
+    <form action="{% url 'dcsroom:register-room' %}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 justify-items-center bg-blue-50 rounded-xl">
+        {% csrf_token %}
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="name">Room Name </label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="text" name="name" id="room_name">
+        </div>
+
+        <div class="p-5">
+            <label class="p-1 lg:px-5" for="about">About Room</label>
+            <input class="p-1 rounded-sm outline-none focus:outline-blue-100" type="text" name="about" id="room_about">
+        </div>
+
+        <input type="hidden" id="register_sessid" name="sessid" value="">
+
+        <div class="p-3">
+            <input class="bg-blue-500 rounded-2xl py-4 px-16 text-white hover:text-2xl" type="submit" value="Register">
+        </div>
+    </form>
+</div>
+
+{% endblock dcsroomcontent %}
