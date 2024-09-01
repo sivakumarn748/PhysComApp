@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://8000-sivakumarn74-physcomapp-smfsqujuykp.ws-us115.gitpod.io", "https://5773-34-19-110-190.ngrok-free.app", "https://325a-35-227-155-136.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://8000-sivakumarn74-physcomapp-smfsqujuykp.ws-us115.gitpod.io"]
 
 # Application definition
 

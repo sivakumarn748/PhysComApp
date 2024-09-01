@@ -32,7 +32,7 @@
     const textArea = document.getElementById("text_msg");
     const msgPool = document.getElementById("messagePool");
 
-    const sessid = localStorage.getItem("sessid");alert(sessid);
+    const sessid = localStorage.getItem("sessid")
     
     const wsURL = `wss://${window.location.host}/ws/dcsroom/{{room.roomid}}`;
     const wsConn = new WebSocket(wsURL, sessid);
@@ -44,6 +44,7 @@
     };
     wsConn.onclose = (event) => {
         console.log("Connection Closed :(")
+        console.log(event);
         // sendAlert(`${sessid} exited the room.`);
     };
     wsConn.onmessage = (event) => {
@@ -56,7 +57,7 @@
         }
     };
     wsConn.onerror = (event) => {
-        // console.log(event);
+        console.log(event);
         alert(JSON.stringify(event))
     };
 

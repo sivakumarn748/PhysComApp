@@ -23,7 +23,6 @@ class ChatConsumer(AsyncWebsocketConsumer) :
     
     async def close(self, close_code) :
         # Leave Room Group
-        print(user, sessid)
         await self.channel_layer.group_discard(self.room_group_id, self.channel_name)        
         await self.disconnect(close_code)
 
